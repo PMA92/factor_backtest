@@ -1,6 +1,6 @@
 class Candle
 {
-    public DateTime Date { get; init; }
+    public DateOnly Date { get; init; }
     public int open { get; init; }
     public int high { get; init; }
     public int low { get; init; }

@@ -1,8 +1,9 @@
 using System.ComponentModel;
+using System.Linq.Expressions;
 using System.Reflection;
 
 interface IMarketData
 {
-    Asset getAsset(int assetId);
-    Candle getDailyCandle(int assetId, DateTime date);
+    List<string> ListSymbols();
+    List<Candle> getDailyCandles(string symbol);
 }
