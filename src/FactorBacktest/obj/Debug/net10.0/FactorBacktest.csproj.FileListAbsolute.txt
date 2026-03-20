@@ -1,0 +1,15 @@
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.GeneratedMSBuildEditorConfig.editorconfig
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.AssemblyInfoInputs.cache
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.AssemblyInfo.cs
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.csproj.CoreCompileInputs.cache
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.sourcelink.json
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/bin/Debug/net10.0/FactorBacktest
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/bin/Debug/net10.0/FactorBacktest.deps.json
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/bin/Debug/net10.0/FactorBacktest.runtimeconfig.json
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/bin/Debug/net10.0/FactorBacktest.dll
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/bin/Debug/net10.0/FactorBacktest.pdb
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.dll
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/refint/FactorBacktest.dll
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.pdb
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/FactorBacktest.genruntimeconfig.cache
+/Users/PaulAbruzzo/Documents/factor_backtest/src/FactorBacktest/obj/Debug/net10.0/ref/FactorBacktest.dll

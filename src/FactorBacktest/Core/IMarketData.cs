@@ -4,6 +4,6 @@ using System.Reflection;
 
 interface IMarketData
 {
-    List<string> ListSymbols();
+    List<string> listSymbols();
     List<Candle> getDailyCandles(string symbol);
 }

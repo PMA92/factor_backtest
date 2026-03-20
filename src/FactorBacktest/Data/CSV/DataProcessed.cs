@@ -1,59 +1,91 @@
-using System.ComponentModel;
-using System.ComponentModel.Design;
-using System.Linq.Expressions;
-using System.Security.Cryptography.X509Certificates;
+using System.Globalization;
+using System.Reflection.Metadata.Ecma335;
+
+record ProcessedDataConfig(
+    string Dir = "data/processed/",
+    string FilePattern = "{symbol}.csv"
+);
 
 class DataProcessed : IMarketData
 {
-    public List<string> ListSymbols()
+    private readonly string _dir;
+    private readonly string _filePattern;
+    private readonly Dictionary<string, List<Candle>> _cache = new();
+
+    public DataProcessed(ProcessedDataConfig? config = null)
     {
-        List<string> symbols = new List<string>();
-        foreach (var file in Directory.GetFiles(_dataDir, FilePattern))
-        {
-            symbols.Add(Path.GetFileNameWithoutExtension(file));
-        }
-        return symbols;
+        config ??= new ProcessedDataConfig();
+        _dir = Path.Combine(AppContext.BaseDirectory, "..", "..", "..", "..", "..", config.Dir);       
+        _filePattern = config.FilePattern;
+    }
+
+    private string GetFullPath(string symbol) =>
+        Path.Combine(_dir, _filePattern.Replace("{symbol}", symbol));
+
+    public List<string> listSymbols()
+    {
+        return Directory
+            .GetFiles(_dir, "*.csv")
+            .Select(Path.GetFileNameWithoutExtension)
+            .Where(s => s is not null)
+            .ToList()!;
     }
 
     public List<Candle> getDailyCandles(string symbol)
     {
-        //add validation class and check before s
-        var file = Path.Combine(ProcessedDataDict, string.Format(FilePattern, symbol));
-        var candles = new List<Candle>();
+        if (_cache.TryGetValue(symbol, out var cached))
+            return cached;
+
+        var file = GetFullPath(symbol);
+        if (!File.Exists(file))
+            throw new FileNotFoundException($"No data file found for symbol '{symbol}'.", file);
 
         var lines = File.ReadAllLines(file);
-        var headers = lines[0].Split(',').Select(h => h.Trim()).ToList();        
-        var col = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
-        for (int i = 0; i < headers.Length; i++)
-        {
-            col[headers[i]] = i;
-        }
+        var headers = lines[0].Split(',').Select(h => h.Trim()).ToList();
 
-        int dateIdx = Find(col, "date");
-        int openIdx = Find(col, "open");
-        int highIdx = Find(col, "high");
-        int lowIdx = Find(col, "low");
-        int closeIdx = Find(col, "close");
-        int volumeIdx = Find(col, "volume");
+        var col = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
+        for (int i = 0; i < headers.Count; i++)
+            col[headers[i]] = i;
+
+        int dateIdx   = FindColumn(col, "date");
+        int openIdx   = FindColumn(col, "open");
+        int highIdx   = FindColumn(col, "high");
+        int lowIdx    = FindColumn(col, "low");
+        int closeIdx  = FindColumn(col, "close");
+        int volumeIdx = FindColumn(col, "volume");
+
+        var candles = new List<Candle>();
 
         for (int r = 1; r < lines.Length; r++)
         {
             var line = lines[r].Trim();
+            if (string.IsNullOrEmpty(line)) continue;
+
             var parts = line.Split(',');
 
-            var dateStr = parts[dateIdx].Trim();
-            DateOnly date = DateOnly.Parse(dateStr);
+            var date   = DateOnly.Parse(parts[dateIdx].Trim());
+            var open   = decimal.Parse(parts[openIdx].Trim(),   CultureInfo.InvariantCulture);
+            var high   = decimal.Parse(parts[highIdx].Trim(),   CultureInfo.InvariantCulture);
+            var low    = decimal.Parse(parts[lowIdx].Trim(),    CultureInfo.InvariantCulture);
+            var close  = decimal.Parse(parts[closeIdx].Trim(),  CultureInfo.InvariantCulture);
+            var volume = long.Parse(parts[volumeIdx].Trim());
 
-            decimal open = decimal.Parse(parts[openIdx].Trim(), CultureInfo.InvariantCulture);
-            decimal high = decimal.Parse(parts[highIdx].Trim(), CultureInfo.InvariantCulture);
-            decimal low = decimal.Parse(parts[lowIdx].Trim(), CultureInfo.InvariantCulture);
-            decimal close = decimal.Parse(parts[closeIdx].Trim(), CultureInfo.InvariantCulture);
-            long volume = long.Parse(parts[volumeIdx].Trim());
-
-            candles.Add(new Candle(date, open, high, low, close, volume));
+            candles.Add(new Candle(symbol, date, open, high, low, close, volume));
         }
-        candles.Sort((a, b) => a.Date.CompareTo(b.Date));
-        candles = candles.DistinctBy(d => d.Name).ToList();
-        return candles;
+
+        var result = candles
+            .DistinctBy(c => c.date)
+            .OrderBy(c => c.date)
+            .ToList();
+
+        _cache[symbol] = result;
+        return result;
     }
+
+    private static int FindColumn(Dictionary<string, int> col, string name)
+    {
+        if (!col.TryGetValue(name, out int idx))
+            throw new Exception($"Column '{name}' not found in CSV header.");
+        return idx;
     }
+}

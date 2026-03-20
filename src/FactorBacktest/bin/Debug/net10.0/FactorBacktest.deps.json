@@ -1,0 +1,23 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v10.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v10.0": {
+      "FactorBacktest/1.0.0": {
+        "runtime": {
+          "FactorBacktest.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FactorBacktest/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
