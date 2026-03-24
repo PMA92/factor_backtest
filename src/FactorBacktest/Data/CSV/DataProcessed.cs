@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using System.Globalization;
 using System.Reflection.Metadata.Ecma335;
 
@@ -22,7 +23,7 @@ class DataProcessed : IMarketData
     private string GetFullPath(string symbol) =>
         Path.Combine(_dir, _filePattern.Replace("{symbol}", symbol));
 
-    public List<string> listSymbols()
+    public List<string> ListSymbols()
     {
         return Directory
             .GetFiles(_dir, "*.csv")
@@ -31,11 +32,8 @@ class DataProcessed : IMarketData
             .ToList()!;
     }
 
-    public List<Candle> getDailyCandles(string symbol)
+    public Dictionary<DateOnly, Candle> GetDailyCandles(string symbol)
     {
-        if (_cache.TryGetValue(symbol, out var cached))
-            return cached;
-
         var file = GetFullPath(symbol);
         if (!File.Exists(file))
             throw new FileNotFoundException($"No data file found for symbol '{symbol}'.", file);
@@ -74,12 +72,13 @@ class DataProcessed : IMarketData
         }
 
         var result = candles
-            .DistinctBy(c => c.date)
-            .OrderBy(c => c.date)
+            .DistinctBy(c => c.Date)
+            .OrderBy(c => c.Date)
             .ToList();
 
-        _cache[symbol] = result;
-        return result;
+        
+        return result.ToDictionary(c => c.Date);
+
     }
 
     private static int FindColumn(Dictionary<string, int> col, string name)

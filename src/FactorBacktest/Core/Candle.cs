@@ -1,22 +1,22 @@
 class Candle
 {
-    public string name { get; init; }
-    public DateOnly date { get; init; }
-    public decimal open { get; init; }
-    public decimal high { get; init; }
-    public decimal low { get; init; }
-    public decimal close { get; init; }
-    public decimal volume { get; init; }
+    public string Name { get; init; }
+    public DateOnly Date { get; init; }
+    public decimal Open { get; init; }
+    public decimal High { get; init; }
+    public decimal Low { get; init; }
+    public decimal Close { get; init; }
+    public decimal Volume { get; init; }
 
-    public Candle(string name, DateOnly date, decimal open, decimal high, decimal low, decimal close, long volume)
+    public Candle(string Name, DateOnly Date, decimal Open, decimal High, decimal Low, decimal Close, long Volume)
     {
-        this.name = name;
-        this.date = date;
-        this.open = open;
-        this.high = high;
-        this.low = low;
-        this.close = close;
-        this.volume = volume;
+        this.Name = Name;
+        this.Date = Date;
+        this.Open = Open;
+        this.High = High;
+        this.Low = Low;
+        this.Close = Close;
+        this.Volume = Volume;
     }
 }
 

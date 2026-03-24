@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("FactorBacktest")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+91219e183b7a0cdf9a207f91727d93fa60724db3")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b09b022d7e2b566523f33b072c7376dbce0089bb")]
 [assembly: System.Reflection.AssemblyProductAttribute("FactorBacktest")]
 [assembly: System.Reflection.AssemblyTitleAttribute("FactorBacktest")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
